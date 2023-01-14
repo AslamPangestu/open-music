@@ -1,0 +1,28 @@
+{
+  "name": "open-music",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Aslam Pangestu",
+  "license": "MIT",
+  "scripts": {
+    "start": "NODE_ENV=production node ./src/server.js",
+    "dev": "nodemon ./src/server.js",
+    "lint": "eslint ./src",
+    "migrate-create": "node-pg-migrate create",
+    "migrate-run": "node-pg-migrate up"
+  },
+  "dependencies": {
+    "@hapi/hapi": "^21.1.0",
+    "dotenv": "^16.0.3",
+    "joi": "^17.7.0",
+    "nanoid": "^3.3.4",
+    "node-pg-migrate": "^6.2.2",
+    "pg": "^8.8.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "nodemon": "^2.0.20"
+  }
+}
