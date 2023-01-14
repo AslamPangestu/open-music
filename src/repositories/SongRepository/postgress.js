@@ -52,7 +52,7 @@ class SongService {
     };
     const result = await this._db.query(query);
 
-    if (!result.rows.length) {
+    if (!result.rowCount) {
       throw new NotFound('Song Not Found');
     }
 
@@ -72,7 +72,7 @@ class SongService {
 
     const result = await this._db.query(query);
 
-    if (!result.rows.length) {
+    if (!result.rowCount) {
       throw new Invariant('Failed Update Song');
     }
     return result.rows[0].id;
@@ -88,7 +88,7 @@ class SongService {
 
     const result = await this._db.query(query);
 
-    if (!result.rows.length) {
+    if (!result.rowCount) {
       throw new Invariant('Failed Update Song');
     }
     return result.rows[0].id;

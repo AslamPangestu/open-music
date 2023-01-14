@@ -12,12 +12,11 @@ class AlbumService {
 
   async create({ name, year }) {
     const id = generateId('album');
-    const createdAt = generateCurrentDate();
-    const updatedAt = createdAt;
+    const currentDate = generateCurrentDate();
 
     const query = {
-      text: `INSERT INTO ${TABLE_NAME} VALUES($1, $2, $3, $4, $5) RETURNING id`,
-      values: [id, name, year, createdAt, updatedAt],
+      text: `INSERT INTO ${TABLE_NAME} VALUES($1, $2, $3, $4, $4) RETURNING id`,
+      values: [id, name, year, currentDate],
     };
 
     const result = await this._db.query(query);
@@ -41,7 +40,7 @@ class AlbumService {
     };
     const result = await this._db.query(query);
 
-    if (!result.rows.length) {
+    if (!result.rowCount) {
       throw new NotFound('Album Not Found');
     }
     const finalResult = {
@@ -69,7 +68,7 @@ class AlbumService {
 
     const result = await this._db.query(query);
 
-    if (!result.rows.length) {
+    if (!result.rowCount) {
       throw new Invariant('Failed Update Album');
     }
 
@@ -86,7 +85,7 @@ class AlbumService {
 
     const result = await this._db.query(query);
 
-    if (!result.rows.length) {
+    if (!result.rowCount) {
       throw new Invariant('Failed Delete Album');
     }
 
