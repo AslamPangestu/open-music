@@ -5,7 +5,7 @@ const { generateCurrentDate, generateId } = require('../../core/Database');
 
 const TABLE_NAME = 'songs';
 
-class SongService {
+class SongRepository {
   constructor() {
     this._db = new Pool();
   }
@@ -62,8 +62,6 @@ class SongService {
   async update(id, {
     title, year, genre, performer, duration, albumId,
   }) {
-    await this.findById(id);
-
     const updatedAt = generateCurrentDate();
     const query = {
       text: `UPDATE ${TABLE_NAME} SET title = $1, year = $2, genre = $3, performer = $4, duration = $5, album_id = $6, updated_at = $7 WHERE id = $8 RETURNING id`,
@@ -79,8 +77,6 @@ class SongService {
   }
 
   async delete(id) {
-    await this.findById(id);
-
     const query = {
       text: `DELETE FROM ${TABLE_NAME} WHERE id = $1 RETURNING id`,
       values: [id],
@@ -89,10 +85,10 @@ class SongService {
     const result = await this._db.query(query);
 
     if (!result.rowCount) {
-      throw new Invariant('Failed Update Song');
+      throw new Invariant('Failed Delete Song');
     }
     return result.rows[0].id;
   }
 }
 
-module.exports = SongService;
+module.exports = SongRepository;

@@ -23,12 +23,14 @@ class SongService {
   async edit(id, {
     title, year, genre, performer, duration, albumId,
   }) {
+    await this._repository.findById(id);
     return this._repository.update(id, {
       title, year, genre, performer, duration, albumId,
     });
   }
 
   async remove(id) {
+    await this._repository.findById(id);
     return this._repository.delete(id);
   }
 }

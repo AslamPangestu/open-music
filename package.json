@@ -9,10 +9,13 @@
     "dev": "nodemon ./src/server.js",
     "lint": "eslint ./src",
     "migrate-create": "node-pg-migrate create",
-    "migrate-run": "node-pg-migrate up"
+    "migrate-run": "node-pg-migrate up",
+    "generate-token": "node ./src/core/generateToken.js"
   },
   "dependencies": {
     "@hapi/hapi": "^21.1.0",
+    "@hapi/jwt": "^3.0.0",
+    "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",
     "joi": "^17.7.0",
     "nanoid": "^3.3.4",

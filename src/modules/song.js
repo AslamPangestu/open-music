@@ -1,7 +1,7 @@
 const plugin = require('../api/song');
-const Service = require('../services/SongService');
 const model = require('../models/Song');
-const Repository = require('../repositories/SongRepository/postgress');
+const Service = require('../services/SongService');
+const Repository = require('../repositories/SongRepository/postgres');
 
 const SongModule = () => {
   const repository = new Repository();
@@ -9,10 +9,7 @@ const SongModule = () => {
 
   return {
     plugin,
-    options: {
-      service,
-      model,
-    },
+    options: { service, model },
   };
 };
 

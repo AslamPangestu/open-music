@@ -1,7 +1,7 @@
 const plugin = require('../api/album');
-const Service = require('../services/AlbumService');
 const model = require('../models/Album');
-const Repository = require('../repositories/AlbumRepository/postgress');
+const Service = require('../services/AlbumService');
+const Repository = require('../repositories/AlbumRepository/postgres');
 
 const AlbumModule = () => {
   const repository = new Repository();
@@ -9,10 +9,7 @@ const AlbumModule = () => {
 
   return {
     plugin,
-    options: {
-      service,
-      model,
-    },
+    options: { service, model },
   };
 };
 

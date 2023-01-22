@@ -1,16 +1,16 @@
-class SongsHandler {
+class SongHandler {
   constructor(service, model) {
     this._service = service;
     this._model = model;
 
-    this.post = this.post.bind(this);
-    this.get = this.get.bind(this);
-    this.getById = this.getById.bind(this);
-    this.put = this.put.bind(this);
+    this.create = this.create.bind(this);
+    this.readAll = this.readAll.bind(this);
+    this.readById = this.readById.bind(this);
+    this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
   }
 
-  async post(request, h) {
+  async create(request, h) {
     const { payload } = request;
     this._model.SongPayloadModel.validate(payload);
 
@@ -27,7 +27,7 @@ class SongsHandler {
     return response;
   }
 
-  async get(request, h) {
+  async readAll(request, h) {
     const { title, performer } = request.query;
     const songs = await this._service.getAll({ title, performer });
     const response = h.response({
@@ -41,7 +41,7 @@ class SongsHandler {
     return response;
   }
 
-  async getById(request, h) {
+  async readById(request, h) {
     const { id } = request.params;
     const song = await this._service.getById(id);
     const response = h.response({
@@ -55,7 +55,7 @@ class SongsHandler {
     return response;
   }
 
-  async put(request, h) {
+  async update(request, h) {
     const { payload } = request;
     this._model.SongPayloadModel.validate(payload);
     const { id } = request.params;
@@ -89,4 +89,4 @@ class SongsHandler {
   }
 }
 
-module.exports = SongsHandler;
+module.exports = SongHandler;

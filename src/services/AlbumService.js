@@ -8,19 +8,17 @@ class AlbumService {
     return this._repository.create({ name, year });
   }
 
-  async getAll() {
-    return this._repository.findAll();
-  }
-
   async getById(id) {
     return this._repository.findById(id);
   }
 
   async edit(id, { name, year }) {
+    await this._repository.findById(id);
     return this._repository.update(id, { name, year });
   }
 
   async remove(id) {
+    await this._repository.findById(id);
     return this._repository.delete(id);
   }
 }

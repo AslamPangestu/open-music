@@ -2,7 +2,7 @@ const ClientError = require('./exceptions/ClientError');
 
 const ErrorHandler = (request, h) => {
   // mendapatkan konteks response dari request
-  const { response } = request;
+  const { response, route } = request;
   if (response instanceof Error) {
     // penanganan client error secara internal.
     if (response instanceof ClientError) {
@@ -17,7 +17,10 @@ const ErrorHandler = (request, h) => {
     if (!response.isServer) {
       return h.continue;
     }
-    console.error('ERR', response.message);
+    // eslint-disable-next-line no-console
+    console.error(`ERR ${route.method}`, {
+      path: route.path, message: response.message,
+    });
     // penanganan server error sesuai kebutuhan
     const newResponse = h.response({
       status: 'error',

@@ -5,7 +5,7 @@ const { generateCurrentDate, generateId } = require('../../core/Database');
 
 const TABLE_NAME = 'albums';
 
-class AlbumService {
+class AlbumRepository {
   constructor() {
     this._db = new Pool();
   }
@@ -28,14 +28,13 @@ class AlbumService {
     return result.rows[0].id;
   }
 
-  async findAll() {
-    const result = await this._db.query(`SELECT * FROM ${TABLE_NAME}`);
-    return result.rows;
-  }
-
   async findById(id) {
     const query = {
-      text: `SELECT ${TABLE_NAME}.id AS album_id, ${TABLE_NAME}.name AS album_name, ${TABLE_NAME}.year AS album_year, songs.id AS song_id, songs.title as title, songs.performer as performer FROM ${TABLE_NAME} LEFT JOIN songs ON ${TABLE_NAME}.id = songs.album_id WHERE ${TABLE_NAME}.id = $1`,
+      text: `SELECT ${TABLE_NAME}.id AS album_id, ${TABLE_NAME}.name AS album_name, ${TABLE_NAME}.year AS album_year, 
+      songs.id AS song_id, songs.title as title, songs.performer as performer 
+      FROM ${TABLE_NAME} 
+      LEFT JOIN songs ON ${TABLE_NAME}.id = songs.album_id 
+      WHERE ${TABLE_NAME}.id = $1`,
       values: [id],
     };
     const result = await this._db.query(query);
@@ -58,8 +57,6 @@ class AlbumService {
   }
 
   async update(id, { name, year }) {
-    await this.findById(id);
-
     const updatedAt = generateCurrentDate();
     const query = {
       text: `UPDATE ${TABLE_NAME} SET name = $1, year = $2, updated_at = $3 WHERE id = $4 RETURNING id`,
@@ -76,8 +73,6 @@ class AlbumService {
   }
 
   async delete(id) {
-    await this.findById(id);
-
     const query = {
       text: `DELETE FROM ${TABLE_NAME} WHERE id = $1 RETURNING id`,
       values: [id],
@@ -93,4 +88,4 @@ class AlbumService {
   }
 }
 
-module.exports = AlbumService;
+module.exports = AlbumRepository;

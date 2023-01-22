@@ -1,16 +1,15 @@
-class AlbumsHandler {
+class AlbumHandler {
   constructor(service, model) {
     this._service = service;
     this._model = model;
 
-    this.post = this.post.bind(this);
-    this.get = this.get.bind(this);
-    this.getById = this.getById.bind(this);
-    this.put = this.put.bind(this);
+    this.create = this.create.bind(this);
+    this.readById = this.readById.bind(this);
+    this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
   }
 
-  async post(request, h) {
+  async create(request, h) {
     const { payload } = request;
     this._model.AlbumPayloadModel.validate(payload);
 
@@ -27,25 +26,12 @@ class AlbumsHandler {
     return response;
   }
 
-  async get(_request, h) {
-    const albums = await this._service.getAll();
-    const response = h.response({
-      status: 'success',
-      message: 'All Album success get',
-      data: {
-        albums,
-      },
-    });
-    response.code(200);
-    return response;
-  }
-
-  async getById(request, h) {
+  async readById(request, h) {
     const { id } = request.params;
     const album = await this._service.getById(id);
     const response = h.response({
       status: 'success',
-      message: `Album ${id} success get`,
+      message: `Album ${id} success read`,
       data: {
         album,
       },
@@ -54,7 +40,7 @@ class AlbumsHandler {
     return response;
   }
 
-  async put(request, h) {
+  async update(request, h) {
     const { payload } = request;
     this._model.AlbumPayloadModel.validate(payload);
     const { id } = request.params;
@@ -88,4 +74,4 @@ class AlbumsHandler {
   }
 }
 
-module.exports = AlbumsHandler;
+module.exports = AlbumHandler;
