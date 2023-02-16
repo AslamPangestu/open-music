@@ -5,7 +5,7 @@ const Repository = require('../repositories/AlbumRepository/postgres');
 
 const AlbumModule = () => {
   const repository = new Repository();
-  const service = new Service(repository, model);
+  const service = new Service(repository);
 
   return {
     plugin,

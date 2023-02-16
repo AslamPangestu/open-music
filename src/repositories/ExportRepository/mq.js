@@ -6,7 +6,9 @@ class ExportRepository {
   }
 
   async exportPlaylist({ message }) {
+    await this._db.init();
     await this._db.sendMessage('export:playlist', JSON.stringify(message));
+    this._db.close();
   }
 }
 

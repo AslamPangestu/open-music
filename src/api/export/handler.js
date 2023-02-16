@@ -1,16 +1,17 @@
 class ExportHandler {
-  constructor(services, model) {
-    this._services = services;
+  constructor(service, model) {
+    this._service = service;
     this._model = model;
     this.exportPlaylist = this.exportPlaylist.bind(this);
   }
 
   async exportPlaylist(request, h) {
+    const { id: playlistId } = request.params;
     const { id: credentialId } = request.auth.credentials;
     const { payload } = request;
     this._model.ExportPlaylistPayloadModel.validate(payload);
 
-    await this._service.exportPlaylist({ ...payload, userId: credentialId });
+    await this._service.exportPlaylist({ ...payload, playlistId, userId: credentialId });
 
     const response = h.response({
       status: 'success',

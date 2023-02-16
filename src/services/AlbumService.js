@@ -1,7 +1,6 @@
 class AlbumService {
-  constructor(repository, model) {
+  constructor(repository) {
     this._repository = repository;
-    this._model = model;
   }
 
   async add({ name, year }) {

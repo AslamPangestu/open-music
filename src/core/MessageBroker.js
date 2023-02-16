@@ -4,10 +4,9 @@ class MessageBroker {
   constructor() {
     this._connection = null;
     this._channels = null;
-    this._init();
   }
 
-  async _init() {
+  async init() {
     this._connection = await amqp.connect(process.env.RABBITMQ_SERVER);
     this._channels = await this._connection.createChannel();
   }
@@ -18,11 +17,11 @@ class MessageBroker {
     });
 
     await this._channels.sendToQueue(queue, Buffer.from(message));
-
-    this._close();
+    // eslint-disable-next-line no-console
+    console.log(`${queue} has been send`);
   }
 
-  _close() {
+  close() {
     setTimeout(() => {
       this._connection.close();
     }, 1000);
@@ -30,22 +29,3 @@ class MessageBroker {
 }
 
 module.exports = MessageBroker;
-
-// const MessageBroker = {
-//   sendMessage: async (queue, message) => {
-//     const connection = await amqp.connect(process.env.RABBITMQ_SERVER);
-//     const channel = await connection.createChannel();
-//     await channel.assertQueue(queue, {
-//       durable: true,
-//     });
-
-//     await channel.sendToQueue(queue, Buffer.from(message));
-
-//     setTimeout(() => {
-//       connection.close();
-//     }, 1000);
-//   },
-
-// };
-
-// module.exports = MessageBroker;

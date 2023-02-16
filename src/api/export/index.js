@@ -5,7 +5,7 @@ module.exports = {
   name: 'exports',
   version: '1.0.0',
   register: async (server, { service, model }) => {
-    const handler = new Handler({ service, model });
+    const handler = new Handler(service, model);
     server.route(routes(handler));
   },
 };
