@@ -1,6 +1,6 @@
-const Joi = require("joi");
+const Joi = require('joi');
 
-const BaseModel = require("../core/BaseModel");
+const BaseModel = require('../core/BaseModel');
 
 const currentYear = new Date().getFullYear();
 

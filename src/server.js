@@ -11,6 +11,7 @@ const AuthModule = require('./modules/auth');
 const UserModule = require('./modules/user');
 const PlaylistModule = require('./modules/playlist');
 const CollaborationModule = require('./modules/collaboration');
+const ExportModule = require('./modules/export');
 
 const init = async () => {
   const server = Hapi.server({
@@ -49,6 +50,7 @@ const init = async () => {
   await server.register(UserModule());
   await server.register(PlaylistModule());
   await server.register(CollaborationModule());
+  await server.register(ExportModule());
 
   server.ext('onPreResponse', ErrorHandler);
 
