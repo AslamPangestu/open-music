@@ -1,5 +1,7 @@
 const amqp = require('amqplib');
 
+const Config = require('./Config');
+
 class MessageBroker {
   constructor() {
     this._connection = null;
@@ -7,7 +9,7 @@ class MessageBroker {
   }
 
   async init() {
-    this._connection = await amqp.connect(process.env.RABBITMQ_SERVER);
+    this._connection = await amqp.connect(Config.mq.RABBITMQ_SERVER);
     this._channels = await this._connection.createChannel();
   }
 

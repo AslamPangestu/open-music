@@ -4,6 +4,7 @@ const Hapi = require('@hapi/hapi');
 const jwt = require('@hapi/jwt');
 
 const ErrorHandler = require('./core/ErrorHandler');
+const Config = require('./core/Config');
 
 const SongModule = require('./modules/song');
 const AlbumModule = require('./modules/album');
@@ -15,8 +16,8 @@ const ExportModule = require('./modules/export');
 
 const init = async () => {
   const server = Hapi.server({
-    port: process.env.PORT,
-    host: process.env.HOST,
+    port: Config.app.PORT,
+    host: Config.app.HOST,
     routes: {
       cors: {
         origin: ['*'],
@@ -29,12 +30,12 @@ const init = async () => {
   ]);
 
   server.auth.strategy('jwt_auth', 'jwt', {
-    keys: process.env.ACCESS_TOKEN_KEY,
+    keys: Config.app.ACCESS_TOKEN_KEY,
     verify: {
       aud: false,
       iss: false,
       sub: false,
-      maxAgeSec: process.env.ACCESS_TOKEN_AGE,
+      maxAgeSec: Config.app.ACCESS_TOKEN_AGE,
     },
     validate: (artifacts) => ({
       isValid: true,
