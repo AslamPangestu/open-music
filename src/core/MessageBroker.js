@@ -2,20 +2,29 @@ const amqp = require('amqplib');
 
 class MessageBroker {
   constructor() {
-    this._connection = amqp.connect(process.env.RABBITMQ_SERVER);
+    this._connection = null;
+    this._channels = null;
+    this._init();
+  }
+
+  async _init() {
+    this._connection = await amqp.connect(process.env.RABBITMQ_SERVER);
+    this._channels = await this._connection.createChannel();
   }
 
   async sendMessage(queue, message) {
-    const connection = await this._connection;
-    const channel = await connection.createChannel();
-    await channel.assertQueue(queue, {
+    await this._channels.assertQueue(queue, {
       durable: true,
     });
 
-    await channel.sendToQueue(queue, Buffer.from(message));
+    await this._channels.sendToQueue(queue, Buffer.from(message));
 
+    this._close();
+  }
+
+  _close() {
     setTimeout(() => {
-      connection.close();
+      this._connection.close();
     }, 1000);
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "open-music",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/server.js",
   "author": "Aslam Pangestu",
   "license": "MIT",
   "scripts": {
