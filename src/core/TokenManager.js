@@ -1,6 +1,6 @@
 const Jwt = require('@hapi/jwt');
 
-const BadRequest = require('./exceptions/BadRequest');
+const BadRequest = require('./Exceptions/BadRequest');
 const Config = require('./Config');
 
 const TokenManager = {

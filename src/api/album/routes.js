@@ -19,6 +19,19 @@ const routes = (handler) => [
     path: '/albums/{id}',
     handler: handler.delete,
   },
+  {
+    method: 'POST',
+    path: '/albums/{id}/covers',
+    handler: handler.uploadCover,
+    options: {
+      payload: {
+        allow: 'multipart/form-data',
+        multipart: true,
+        output: 'stream',
+        maxBytes: 512000,
+      },
+    },
+  },
 ];
 
 module.exports = routes;

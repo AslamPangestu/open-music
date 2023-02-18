@@ -1,6 +1,6 @@
 const { Pool } = require('pg');
 
-const BadRequest = require('../../core/exceptions/BadRequest');
+const BadRequest = require('../../core/Exceptions/BadRequest');
 
 const TABLE_NAME = 'authentications';
 

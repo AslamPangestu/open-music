@@ -11,4 +11,11 @@ const AlbumPayloadModel = new BaseModel({
   },
 });
 
-module.exports = { AlbumPayloadModel };
+const AlbumCoverPayloadModel = new BaseModel({
+  schema: {
+    'content-type': Joi.string().valid('image/apng', 'image/avif', 'image/gif', 'image/jpeg', 'image/jpg', 'image/png', 'image/webp').required(),
+  },
+  unknown: true,
+});
+
+module.exports = { AlbumPayloadModel, AlbumCoverPayloadModel };

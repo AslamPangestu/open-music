@@ -1,6 +1,7 @@
 class AlbumService {
-  constructor(repository) {
+  constructor({ repository, storageManager }) {
     this._repository = repository;
+    this._storageManager = storageManager;
   }
 
   async add({ name, year }) {
@@ -19,6 +20,13 @@ class AlbumService {
   async remove(id) {
     await this._repository.findById(id);
     return this._repository.delete(id);
+  }
+
+  async addCover(id, file, meta) {
+    await this._repository.findById(id);
+    const fileLocation = await this._storageManager.add(file, meta);
+    await this._repository.updateCover(id, { fileLocation });
+    return fileLocation;
   }
 }
 

@@ -1,8 +1,8 @@
 const { Pool } = require('pg');
 
-const Invariant = require('../../core/exceptions/Invariant');
-const NotFound = require('../../core/exceptions/NotFound');
-const Unauthorized = require('../../core/exceptions/Unauthorized');
+const Invariant = require('../../core/Exceptions/Invariant');
+const NotFound = require('../../core/Exceptions/NotFound');
+const Unauthorized = require('../../core/Exceptions/Unauthorized');
 const { generateCurrentDate, generateId } = require('../../core/Database');
 
 const TABLE_NAME = 'users';

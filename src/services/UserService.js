@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 
-const BadRequest = require('../core/exceptions/BadRequest');
-const Unauthorized = require('../core/exceptions/Unauthorized');
+const BadRequest = require('../core/Exceptions/BadRequest');
+const Unauthorized = require('../core/Exceptions/Unauthorized');
 
 class UserService {
   constructor(repository, model) {

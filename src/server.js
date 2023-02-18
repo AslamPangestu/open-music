@@ -1,7 +1,9 @@
 require('dotenv').config();
 
+const path = require('path');
 const Hapi = require('@hapi/hapi');
 const jwt = require('@hapi/jwt');
+const Inert = require('@hapi/inert');
 
 const ErrorHandler = require('./core/ErrorHandler');
 const Config = require('./core/Config');
@@ -22,12 +24,28 @@ const init = async () => {
       cors: {
         origin: ['*'],
       },
+      files: {
+        relativeTo: path.join(__dirname, '../', 'storage'),
+      },
     },
   });
 
   // External Plugin
-  await server.register([{ plugin: jwt },
+  await server.register([
+    { plugin: jwt },
+    { plugin: Inert },
   ]);
+
+  server.route({
+    method: 'GET',
+    path: '/public/{param*}',
+    handler: {
+      directory: {
+        path: '.',
+        redirectToSlash: true,
+      },
+    },
+  });
 
   server.auth.strategy('jwt_auth', 'jwt', {
     keys: Config.app.ACCESS_TOKEN_KEY,

@@ -15,7 +15,7 @@ class ExportHandler {
 
     const response = h.response({
       status: 'success',
-      message: 'Export playlist on process',
+      message: 'Permintaan Anda sedang kami proses',
     });
     response.code(201);
     return response;

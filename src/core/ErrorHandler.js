@@ -1,4 +1,4 @@
-const ClientError = require('./exceptions/ClientError');
+const ClientError = require('./Exceptions/ClientError');
 
 const ErrorHandler = (request, h) => {
   // mendapatkan konteks response dari request

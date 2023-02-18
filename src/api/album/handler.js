@@ -7,6 +7,7 @@ class AlbumHandler {
     this.readById = this.readById.bind(this);
     this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
+    this.uploadCover = this.uploadCover.bind(this);
   }
 
   async create(request, h) {
@@ -70,6 +71,23 @@ class AlbumHandler {
       },
     });
     response.code(200);
+    return response;
+  }
+
+  async uploadCover(request, h) {
+    const { cover } = request.payload;
+    const { id } = request.params;
+    this._model.AlbumCoverPayloadModel.validate(cover.hapi.headers);
+
+    const fileLocation = await this._service.addCover(id, cover, cover.hapi);
+
+    const response = h.response({
+      status: 'success',
+      data: {
+        fileLocation,
+      },
+    });
+    response.code(201);
     return response;
   }
 }

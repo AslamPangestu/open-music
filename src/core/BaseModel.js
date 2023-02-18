@@ -1,10 +1,12 @@
 const Joi = require('joi');
 
-const BadRequest = require('./exceptions/BadRequest');
+const BadRequest = require('./Exceptions/BadRequest');
 
 class BaseModel {
-  constructor({ schema, haveId = false, haveTimestamp = false }) {
-    this._schema = Joi.object({
+  constructor({
+    schema, haveId = false, haveTimestamp = false, unknown = false,
+  }) {
+    let mainSchema = Joi.object({
       ...schema,
       ...(haveId && { id: Joi.string().required() }),
       ...(haveTimestamp && {
@@ -12,6 +14,10 @@ class BaseModel {
         updatedAt: Joi.date().timestamp().required(),
       }),
     });
+    if (unknown) {
+      mainSchema = mainSchema.unknown();
+    }
+    this._schema = mainSchema;
   }
 
   validate(payload) {

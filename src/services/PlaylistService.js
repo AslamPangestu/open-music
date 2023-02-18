@@ -1,4 +1,4 @@
-const Forbidden = require('../core/exceptions/Forbidden');
+const Forbidden = require('../core/Exceptions/Forbidden');
 
 class PlaylistService {
   constructor({

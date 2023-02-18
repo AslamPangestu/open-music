@@ -14,8 +14,10 @@
   },
   "dependencies": {
     "@hapi/hapi": "^21.1.0",
+    "@hapi/inert": "^7.0.1",
     "@hapi/jwt": "^3.0.0",
     "amqplib": "^0.10.3",
+    "aws-sdk": "^2.1316.0",
     "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",
     "joi": "^17.7.0",

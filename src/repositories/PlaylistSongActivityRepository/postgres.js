@@ -1,6 +1,6 @@
 const { Pool } = require('pg');
 
-const Invariant = require('../../core/exceptions/Invariant');
+const Invariant = require('../../core/Exceptions/Invariant');
 const { generateCurrentDate, generateId } = require('../../core/Database');
 
 const TABLE_NAME = 'playlist_song_activities';

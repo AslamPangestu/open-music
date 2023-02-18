@@ -1,17 +1,19 @@
-const { Pool } = require("pg");
-const Invariant = require("../../core/exceptions/Invariant");
-const NotFound = require("../../core/exceptions/NotFound");
-const { generateCurrentDate, generateId } = require("../../core/Database");
+const { Pool } = require('pg');
+const Invariant = require('../../core/Exceptions/Invariant');
+const NotFound = require('../../core/Exceptions/NotFound');
+const { generateCurrentDate, generateId } = require('../../core/Database');
 
-const TABLE_NAME = "songs";
+const TABLE_NAME = 'songs';
 
 class SongRepository {
   constructor() {
     this._db = new Pool();
   }
 
-  async create({ title, year, genre, performer, duration, albumId }) {
-    const id = generateId("song");
+  async create({
+    title, year, genre, performer, duration, albumId,
+  }) {
+    const id = generateId('song');
     const createdAt = generateCurrentDate();
 
     const query = {
@@ -22,7 +24,7 @@ class SongRepository {
     const result = await this._db.query(query);
 
     if (!result.rows[0].id) {
-      throw new Invariant("Failed Create Song");
+      throw new Invariant('Failed Create Song');
     }
 
     return result.rows[0].id;
@@ -50,13 +52,15 @@ class SongRepository {
     const result = await this._db.query(query);
 
     if (!result.rowCount) {
-      throw new NotFound("Song Not Found");
+      throw new NotFound('Song Not Found');
     }
 
     return result.rows[0];
   }
 
-  async update(id, { title, year, genre, performer, duration, albumId }) {
+  async update(id, {
+    title, year, genre, performer, duration, albumId,
+  }) {
     const updatedAt = generateCurrentDate();
     const query = {
       text: `UPDATE ${TABLE_NAME} SET title = $1, year = $2, genre = $3, performer = $4, duration = $5, album_id = $6, updated_at = $7 WHERE id = $8 RETURNING id`,
@@ -66,7 +70,7 @@ class SongRepository {
     const result = await this._db.query(query);
 
     if (!result.rowCount) {
-      throw new Invariant("Failed Update Song");
+      throw new Invariant('Failed Update Song');
     }
     return result.rows[0].id;
   }
@@ -80,7 +84,7 @@ class SongRepository {
     const result = await this._db.query(query);
 
     if (!result.rowCount) {
-      throw new Invariant("Failed Delete Song");
+      throw new Invariant('Failed Delete Song');
     }
     return result.rows[0].id;
   }
