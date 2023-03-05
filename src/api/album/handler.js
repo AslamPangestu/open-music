@@ -32,14 +32,17 @@ class AlbumHandler {
 
   async readById(request, h) {
     const { id } = request.params;
-    const album = await this._albumService.getById(id);
+    const service = await this._albumService.getById(id);
     const response = h.response({
       status: 'success',
       message: `Album ${id} success read`,
       data: {
-        album,
+        album: service.data,
       },
     });
+    if (service.source === 'cache') {
+      response.header('X-Data-Source', 'cache');
+    }
     response.code(200);
     return response;
   }

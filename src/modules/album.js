@@ -10,7 +10,8 @@ const AlbumModule = ({ cacheManager }) => {
   const storageManager = new StorageManager({ config: { folder: '/album-covers' } });
 
   const albumRepository = new AlbumRepository();
-  const albumService = new AlbumService({ repository: albumRepository, storageManager });
+  // eslint-disable-next-line max-len
+  const albumService = new AlbumService({ repository: albumRepository, storageManager, cacheManager });
 
   const userAlbumLikeRepository = new UserAlbumLikeRepository();
   // eslint-disable-next-line max-len
