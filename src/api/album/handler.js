@@ -114,14 +114,17 @@ class AlbumHandler {
     const { id: albumId } = request.params;
     this._model.AlbumUserLikePayloadModel.validate({ albumId });
 
-    const likes = await this._userAlbumLikeService.getPlaylistLikeCount(albumId);
+    const service = await this._userAlbumLikeService.getPlaylistLikeCount(albumId);
     const response = h.response({
       status: 'success',
       message: 'Album Like success read',
       data: {
-        likes: parseInt(likes, 10),
+        likes: parseInt(service.likes, 10),
       },
     });
+    if (service.source === 'cache') {
+      response.header('X-Data-Source', 'cache');
+    }
     response.code(200);
     return response;
   }

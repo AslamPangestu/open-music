@@ -7,6 +7,7 @@ const Inert = require('@hapi/inert');
 
 const ErrorHandler = require('./core/ErrorHandler');
 const Config = require('./core/Config');
+const CacheManager = require('./core/CacheManager');
 
 const SongModule = require('./modules/song');
 const AlbumModule = require('./modules/album');
@@ -17,6 +18,7 @@ const CollaborationModule = require('./modules/collaboration');
 const ExportModule = require('./modules/export');
 
 const init = async () => {
+  const cacheManager = new CacheManager();
   const server = Hapi.server({
     port: Config.app.PORT,
     host: Config.app.HOST,
@@ -63,7 +65,7 @@ const init = async () => {
     }),
   });
   // Feature Plugin
-  await server.register(AlbumModule());
+  await server.register(AlbumModule({ cacheManager }));
   await server.register(SongModule());
   await server.register(AuthModule());
   await server.register(UserModule());

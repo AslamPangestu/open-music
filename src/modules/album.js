@@ -6,7 +6,7 @@ const AlbumRepository = require('../repositories/AlbumRepository/postgres');
 const UserAlbumLikeService = require('../services/UserAlbumLikeService');
 const UserAlbumLikeRepository = require('../repositories/UserAlbumLikeRepository/postgres');
 
-const AlbumModule = () => {
+const AlbumModule = ({ cacheManager }) => {
   const storageManager = new StorageManager({ config: { folder: '/album-covers' } });
 
   const albumRepository = new AlbumRepository();
@@ -14,7 +14,7 @@ const AlbumModule = () => {
 
   const userAlbumLikeRepository = new UserAlbumLikeRepository();
   // eslint-disable-next-line max-len
-  const userAlbumLikeService = new UserAlbumLikeService({ albumRepository, userAlbumLikeRepository });
+  const userAlbumLikeService = new UserAlbumLikeService({ albumRepository, userAlbumLikeRepository, cacheManager });
 
   return {
     plugin,

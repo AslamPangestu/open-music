@@ -11,7 +11,9 @@ module.exports = {
     RABBITMQ_SERVER: process.env.RABBITMQ_SERVER,
   },
   cache: {
-    REDIS_HOST: process.env.RABBITMQ_SERVER,
+    REDIS_HOST: process.env.REDIS_SERVER,
+    REDIS_PORT: process.env.REDIS_PORT,
+    REDIS_PASSWORD: process.env.REDIS_PASSWORD,
   },
   storage: {
     AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME,

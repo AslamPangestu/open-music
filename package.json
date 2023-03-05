@@ -23,7 +23,8 @@
     "joi": "^17.7.0",
     "nanoid": "^3.3.4",
     "node-pg-migrate": "^6.2.2",
-    "pg": "^8.8.0"
+    "pg": "^8.8.0",
+    "redis": "^4.6.5"
   },
   "devDependencies": {
     "eslint": "^8.2.0",
