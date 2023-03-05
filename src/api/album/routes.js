@@ -32,6 +32,19 @@ const routes = (handler) => [
       },
     },
   },
+  {
+    method: 'POST',
+    path: '/albums/{id}/likes',
+    handler: handler.like,
+    options: {
+      auth: 'jwt_auth',
+    },
+  },
+  {
+    method: 'GET',
+    path: '/albums/{id}/likes',
+    handler: handler.readLike,
+  },
 ];
 
 module.exports = routes;

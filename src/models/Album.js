@@ -18,4 +18,10 @@ const AlbumCoverPayloadModel = new BaseModel({
   unknown: true,
 });
 
-module.exports = { AlbumPayloadModel, AlbumCoverPayloadModel };
+const AlbumUserLikePayloadModel = new BaseModel({
+  schema: {
+    albumId: Joi.string().required(),
+  },
+});
+
+module.exports = { AlbumPayloadModel, AlbumCoverPayloadModel, AlbumUserLikePayloadModel };

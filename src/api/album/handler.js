@@ -1,6 +1,7 @@
 class AlbumHandler {
-  constructor(service, model) {
-    this._service = service;
+  constructor({ albumService, userAlbumLikeService, model }) {
+    this._albumService = albumService;
+    this._userAlbumLikeService = userAlbumLikeService;
     this._model = model;
 
     this.create = this.create.bind(this);
@@ -8,13 +9,15 @@ class AlbumHandler {
     this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
     this.uploadCover = this.uploadCover.bind(this);
+    this.like = this.like.bind(this);
+    this.readLike = this.readLike.bind(this);
   }
 
   async create(request, h) {
     const { payload } = request;
     this._model.AlbumPayloadModel.validate(payload);
 
-    const albumId = await this._service.add(payload);
+    const albumId = await this._albumService.add(payload);
 
     const response = h.response({
       status: 'success',
@@ -29,7 +32,7 @@ class AlbumHandler {
 
   async readById(request, h) {
     const { id } = request.params;
-    const album = await this._service.getById(id);
+    const album = await this._albumService.getById(id);
     const response = h.response({
       status: 'success',
       message: `Album ${id} success read`,
@@ -46,7 +49,7 @@ class AlbumHandler {
     this._model.AlbumPayloadModel.validate(payload);
     const { id } = request.params;
 
-    const albumId = await this._service.edit(id, payload);
+    const albumId = await this._albumService.edit(id, payload);
 
     const response = h.response({
       status: 'success',
@@ -61,7 +64,7 @@ class AlbumHandler {
 
   async delete(request, h) {
     const { id } = request.params;
-    const albumId = await this._service.remove(id);
+    const albumId = await this._albumService.remove(id);
 
     const response = h.response({
       status: 'success',
@@ -79,7 +82,7 @@ class AlbumHandler {
     const { id } = request.params;
     this._model.AlbumCoverPayloadModel.validate(cover.hapi.headers);
 
-    const fileLocation = await this._service.addCover(id, cover, cover.hapi);
+    const fileLocation = await this._albumService.addCover(id, cover, cover.hapi);
 
     const response = h.response({
       status: 'success',
@@ -88,6 +91,38 @@ class AlbumHandler {
       },
     });
     response.code(201);
+    return response;
+  }
+
+  async like(request, h) {
+    const { id: albumId } = request.params;
+    this._model.AlbumUserLikePayloadModel.validate({ albumId });
+
+    const { id: credentialId } = request.auth.credentials;
+
+    const status = await this._userAlbumLikeService.update({ userId: credentialId, albumId });
+
+    const response = h.response({
+      status: 'success',
+      message: `Album success ${status}`,
+    });
+    response.code(201);
+    return response;
+  }
+
+  async readLike(request, h) {
+    const { id: albumId } = request.params;
+    this._model.AlbumUserLikePayloadModel.validate({ albumId });
+
+    const likes = await this._userAlbumLikeService.getPlaylistLikeCount(albumId);
+    const response = h.response({
+      status: 'success',
+      message: 'Album Like success read',
+      data: {
+        likes: parseInt(likes, 10),
+      },
+    });
+    response.code(200);
     return response;
   }
 }
