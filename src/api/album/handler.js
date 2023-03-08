@@ -20,8 +20,8 @@ class AlbumHandler {
     const albumId = await this._albumService.add(payload);
 
     const response = h.response({
-      status: 'success',
-      message: 'Album success created',
+      status: "success",
+      message: "Album success created",
       data: {
         albumId,
       },
@@ -34,14 +34,14 @@ class AlbumHandler {
     const { id } = request.params;
     const service = await this._albumService.getById(id);
     const response = h.response({
-      status: 'success',
+      status: "success",
       message: `Album ${id} success read`,
       data: {
         album: service.data,
       },
     });
-    if (service.source === 'cache') {
-      response.header('X-Data-Source', 'cache');
+    if (service.source === "cache") {
+      response.header("X-Data-Source", "cache");
     }
     response.code(200);
     return response;
@@ -55,8 +55,8 @@ class AlbumHandler {
     const albumId = await this._albumService.edit(id, payload);
 
     const response = h.response({
-      status: 'success',
-      message: 'Album success updated',
+      status: "success",
+      message: "Album success updated",
       data: {
         albumId,
       },
@@ -70,8 +70,8 @@ class AlbumHandler {
     const albumId = await this._albumService.remove(id);
 
     const response = h.response({
-      status: 'success',
-      message: 'Album success delete',
+      status: "success",
+      message: "Album success delete",
       data: {
         albumId,
       },
@@ -85,10 +85,15 @@ class AlbumHandler {
     const { id } = request.params;
     this._model.AlbumCoverPayloadModel.validate(cover.hapi.headers);
 
-    const fileLocation = await this._albumService.addCover(id, cover, cover.hapi);
+    const fileLocation = await this._albumService.addCover(
+      id,
+      cover,
+      cover.hapi
+    );
 
     const response = h.response({
-      status: 'success',
+      status: "success",
+      message: "Sampul berhasil diunggah",
       data: {
         fileLocation,
       },
@@ -103,10 +108,13 @@ class AlbumHandler {
 
     const { id: credentialId } = request.auth.credentials;
 
-    const status = await this._userAlbumLikeService.update({ userId: credentialId, albumId });
+    const status = await this._userAlbumLikeService.update({
+      userId: credentialId,
+      albumId,
+    });
 
     const response = h.response({
-      status: 'success',
+      status: "success",
       message: `Album success ${status}`,
     });
     response.code(201);
@@ -117,16 +125,18 @@ class AlbumHandler {
     const { id: albumId } = request.params;
     this._model.AlbumUserLikePayloadModel.validate({ albumId });
 
-    const service = await this._userAlbumLikeService.getPlaylistLikeCount(albumId);
+    const service = await this._userAlbumLikeService.getPlaylistLikeCount(
+      albumId
+    );
     const response = h.response({
-      status: 'success',
-      message: 'Album Like success read',
+      status: "success",
+      message: "Album Like success read",
       data: {
         likes: parseInt(service.likes, 10),
       },
     });
-    if (service.source === 'cache') {
-      response.header('X-Data-Source', 'cache');
+    if (service.source === "cache") {
+      response.header("X-Data-Source", "cache");
     }
     response.code(200);
     return response;
